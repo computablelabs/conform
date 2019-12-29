@@ -41,8 +41,27 @@ The iterator will have a `Next` method that, when a `Log` is present, gives you 
 above as the `Iterator.Event`. You will also recieve the lower-level Geth `Log` object itself at `Iterator.Event.Raw`.
 In order to fully understand this we need to dive into:
 
+* How the `abigen` generated Contract instance uses its own `FilterLogs` method
 * How the `abigen` generated Contract instance uses its own `UnpackLog` method to hydrate the struct
 * The Geth `Log` itself
+
+### Aside: The BoundContract
+`abigen` produces 3 objects who split responsibilities for _calling_, _transacting_ and _filtering_. They are named for each along the lines of
+`FooCaller`, `FooTransactor` and `FooFilterer`. More importantly however, is that each are a pointer to a `bind.BoundContract`
+
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L78
+
+#### Aside Aside: Three Interfaces
+Worth noting that `caller`, `transactor` and `filterer` are all interfaces here. We *may* want to formalize these ourselves as an
+`anti-corruption layer` boundry in a given domain as *reading*, *transacting* and *filtering*. TBD
+
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/backend.go#L89
+
+NOTE: that file has a *terribad* name...
+
+
+## Contract.FilterLogs
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L247
 
 ## Contract.UnpackLog
 https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L328
