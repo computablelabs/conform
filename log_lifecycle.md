@@ -63,6 +63,47 @@ NOTE: that file has a *terribad* name...
 ## Contract.FilterLogs
 https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L247
 
+There is some masking here. The `BoundContract` handles some formatting then turns this call over to another
+`FilterLogs` method:
+
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L275
+
+### Contract.FilterLogs.FilterLogs (yo dawg...)
+We know that the interface for BoundContract states it must have a `Contract.filterer` which must in turn
+posses its own `FilterLogs`. So where is this `filterer` declared and what exacly is this inner `FilterLogs` doing?
+
+* see `DeployContract` https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L100
+* see `NewBoundContract` https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L102
+
+The `abigen` bindings call `DeployContract` with `bind.ContractBackend` as `backend` which gets assigned
+as `*Caller`, `*Transactor` and `*Filterer`...
+
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/backend.go#L108
+
+#### Finally...
+Geth puts the low level `FilterLogs` on any acceptend `backend` abstraction of the EVM. For example, the
+`SimulatedBackend` used in tests:
+
+https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/backends/simulated.go#L475
+
+Interesting, and typical, that we are dealing with `deprecation` warnings already here (see line 474).
+
+So, how is this done IRL? Looks like the Geth `ethclient` implements the `Filterer` interface:
+
+https://github.com/ethereum/go-ethereum/blob/master/ethclient/ethclient.go#L377
+
+What's `ethclient` then? Its the Geth wrapper around the lowest-level EVM RPC API. Things to note here:
+
+* the internal `toFilterArg` function
+* `ethereum.FilterQuery`
+
+This ball-of-yarn is thus unwound at the topmost package level with the following interfaces:
+
+https://github.com/ethereum/go-ethereum/blob/master/interfaces.go#L133
+
+As mentioned above there seems to be _all momentum_ pointing toward using Geth's internal `Subscription`
+object to do *both* past logs and future ones. We must watch this...
+
 ## Contract.UnpackLog
 https://github.com/ethereum/go-ethereum/blob/master/accounts/abi/bind/base.go#L328
 
