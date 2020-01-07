@@ -11,9 +11,6 @@ A Smart Contract Event may have `N` number of arguments, 3 of them of which may 
 
     | id | eventLogId | arguments |
 
-#### Assuming...
-That Block Number and Index are indeed unique per event. Any other field(s) could be used. TODO
-
 ### Field Specifics
 Required, types etc...
 
@@ -31,3 +28,7 @@ We normalize and store state data, provided by specified Smart Contract (callabl
 specified `Event` occurs. A `Snapshot`:
 
     | id | eventLogId | state |
+
+### Field Specifics
+* eventLogId. identifies this Snapshot as being taken after said Event
+* state. Key, value pairs in the form `{method: return}` 
