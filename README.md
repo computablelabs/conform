@@ -1,6 +1,10 @@
 # Conform
 **Co**mputable **n**ormalized data **form**at
 
+This is the public facing repository that describes the Conform standard as indicated by the rabbit with a pancake on its head.
+
+<img src="https://i.pinimg.com/originals/40/0b/c3/400bc3cd1aa67d2c81c15f8594e8db16.jpg" width="449" height="337">
+
 ## Normalized Event Logs
 Contract specific Event Logs, referred to as simply an `Event`, are written as:
 
