@@ -4,7 +4,7 @@
 ## Normalized Event Logs
 Contract specific Event Logs, referred to as simply an `Event`, are written as:
 
-    | id | address | topics | data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
+    | id | address  data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
 
 ### Normalized EventArguments (indexed and non-indexed[?])
 A Smart Contract Event may have `N` number of arguments, 3 of them of which may have been indexed.
