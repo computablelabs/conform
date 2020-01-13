@@ -8,12 +8,12 @@ This is the public facing repository that describes the Conform standard as indi
 ## Normalized Event Logs
 Contract specific Event Logs, referred to as simply an `Event`, are written as:
 
-    | id | address  data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
+    | id | name | address | data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
 
-### Normalized EventArguments (indexed and non-indexed[?])
-A Smart Contract Event may have `N` number of arguments, 3 of them of which may have been indexed.
+### Normalized EventArguments (indexed and non-indexed[?]) TBD
+A Smart Contract Event may have `N` number of arguments, 3 of them of which may have been indexed (non-final schema proposal).
 
-    | id | eventLogId | arguments |
+    | id | eventLogId | position | name | typeName | integerValue | floatVal | booleanValue | stringValue | binaryValue | marshalledValue |
 
 ### Field Specifics
 Required, types etc...
