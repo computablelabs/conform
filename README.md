@@ -5,15 +5,15 @@ This is the public facing repository that describes the Conform standard as indi
 
 <img src="https://i.pinimg.com/originals/40/0b/c3/400bc3cd1aa67d2c81c15f8594e8db16.jpg" width="449" height="337">
 
-## Normalized Event Logs
-Contract specific Event Logs, referred to as simply an `Event`, are written as:
+## Normalized Events
+Contract specific Events, referred to as simply an `Event`, are written as:
 
-    | id | address  data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
+    | id | name | address | data | blockNumber | transactionHash | transactionIndex | blockHash | logIndex | removed |
 
-### Normalized EventArguments (indexed and non-indexed[?])
-A Smart Contract Event may have `N` number of arguments, 3 of them of which may have been indexed.
+### Normalized Arguments (indexed and non-indexed[?]) TBD
+A Smart Contract Event may have `N` number of arguments, 3 of them of which may have been indexed (non-final schema proposal).
 
-    | id | eventLogId | arguments |
+    | id | eventId | position | name | typeName | integerValue | floatVal | booleanValue | stringValue | binaryValue | marshalledValue |
 
 ### Field Specifics
 Required, types etc...
@@ -23,16 +23,16 @@ Required, types etc...
 * topics: required. `type`
 * ...
 
-#### EventArguments
-* eventLogId: identifies the Arguments as belonging to a specific SmartContract Event
+#### Arguments
+* eventId: identifies the Arguments as belonging to a specific SmartContract Event
 * arguments: (required - no arg events won't have an entry here). Key, value pairs. JSON?
 
 ## Normalized Smart Contract State
 We normalize and store state data, provided by specified Smart Contract (callable) methods after any
 specified `Event` occurs. A `Snapshot`:
 
-    | id | eventLogId | state |
+    | id | eventId | state |
 
 ### Field Specifics
-* eventLogId. identifies this Snapshot as being taken after said Event
+* eventId. identifies this Snapshot as being taken after said Event
 * state. Key, value pairs in the form `{method: return}` 
